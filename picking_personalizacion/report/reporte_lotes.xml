@@ -1,0 +1,139 @@
+<odoo>
+	<data>
+		<template id="picking_personalizacion.orden_carga_personalizado">
+			<t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="move_ids" t-value="o.picking_ids.mapped('move_ids')"/>
+                    <t t-set="move_line_ids" t-value="o.picking_ids.mapped('move_line_ids')"/>
+                    <t t-set="has_package" t-value="move_line_ids.filtered('result_package_id')" groups="stock.group_tracking_lot"/>
+                    <t t-set="has_serial_number" t-value="move_line_ids.filtered('lot_id')" groups="stock.group_production_lot"/>
+                    <t t-set="has_barcode" t-value="move_line_ids.mapped('product_id').filtered('barcode')"/>
+                    <t t-set="locations" t-value="move_line_ids.mapped('location_id').sorted(lambda location: location.complete_name)"/>
+                    
+                        <!--<t t-set="id_productos" t-value="[]"/>
+                    <t t-foreach="move_line_ids" t-as="move">
+                        <t t-if="move.id not in id_productos">
+                            <t t-set="id_productos" t-value="id_productos + [move.move_id]"/>
+                        </t>
+                    </t>  >-->
+                    
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="d-flex">
+                                <div><h3><span t-field="o.name"/></h3></div>
+                                <div class="me-auto">
+                                    <div t-field="o.name" t-options="{'widget': 'barcode', 'width': 600, 'height': 150, 'img_style': 'width:300px;height:50px;'}"/>
+                                </div>
+                            </div>
+                            <div>
+                                <strong>Responsable:</strong>
+                                <span t-field="o.user_id"/>
+                            </div>
+                            <div>
+                                <strong>Repartidor:</strong>
+                                <span t-field="o.repartidor"/>
+                                <!--<t t-esc="id_productos"/>>-->
+                            </div>
+                            <div>
+                                <strong>Fecha prevista:</strong>
+                                <span t-field="o.scheduled_date"/>
+                                <!--<t t-esc="id_productos"/>>-->
+                            </div>
+                            <br/>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad pedida</th>
+                                        <th>Cantidad hecha</th>
+                                        <th>Lote</th>
+                                        <th>En paquetes/unidades</th>
+                                        <th>Peso (kg)</th>
+                                        <th>Volumen (m3)</th>
+                                        <!--<th>Responsable</th>-->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   
+                                    <t t-set="productos_procesados" t-value="[]" />
+                                    <t t-set="peso_total" t-value="0"/>
+                                    <t t-set="volumen_total" t-value="0"/>
+                                    <t t-set="cant_prod" t-value="0"/>
+                                    <t t-set="move_line_ids_ordenados" t-value="move_line_ids.sorted(key=lambda x: x.product_id.name)" />
+
+                                    <t t-foreach="move_line_ids_ordenados" t-as="move">
+                                        <t t-if="move.product_id.id not in productos_procesados">
+                                            <t t-set="productos_procesados" t-value="productos_procesados + [move.product_id.id]" />
+                                            <tr>
+                                                <td>
+                                                    <span t-field="move.product_id"/> 
+                                                    
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <!-- Lógica para la cantidad pedida -->
+                                                    <span t-esc="'{:.2f}'.format(sum(move_line_ids.filtered(lambda x:x.product_id==move.product_id).mapped('reserved_uom_qty'))).replace('.',',')"/>
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <!-- Lógica para la cantidad hecha -->
+                                                    <span t-esc="'{:.2f}'.format(sum(move_line_ids.filtered(lambda x:x.product_id==move.product_id).mapped('qty_done'))).replace('.',',')"/>
+                                                    <t t-set="cant_prod" t-value="'{:.2f}'.format(sum(move_line_ids.filtered(lambda x:x.product_id==move.product_id).mapped('qty_done'))).replace('.',',')"/>
+
+                                                </td>
+                                                <td>
+                                                    <span t-field="move.lot_id"/> 
+                                                </td>
+                                                <td>
+                                                    <span t-esc="move._get_packing_product(move.product_id, cant_prod)"/> 
+                                                </td>
+                                                
+                                                <td style="text-align:right">
+                                                    <!-- Lógica para el peso -->
+                                                    <t t-set="peso" t-value="sum(move_ids.filtered(lambda x:x.product_id==move.product_id).mapped('product_uom_qty')) * move.product_id.weight"/>
+                                                    <t t-set="peso_total" t-value="peso_total + peso"/>
+                                                    <span t-esc="'{:.3f}'.format(peso).replace('.',',')"/>
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <!-- Lógica para el volumen -->
+                                                    <t t-set="volumen" t-value="sum(move_ids.filtered(lambda x:x.product_id==move.product_id).mapped('product_uom_qty')) * move.product_id.volume"/>
+                                                    <t t-set="volumen_total" t-value="volumen_total + volumen"/>
+                                                    <span t-esc="'{:.3f}'.format(volumen).replace('.',',')"/>
+                                                </td>
+                                            </tr>
+                                            
+                                            <!-- Agrega impresiones de prueba -->
+                                           
+                                        </t>
+                                    </t>
+                                    <tr>
+                                        <td colspan="5" style="background-color:">
+                                            <strong>Totales:</strong>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <strong t-esc="'{:.3f}'.format(peso_total).replace('.',',')"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <strong t-esc="'{:.3f}'.format(volumen_total).replace('.',',')"/>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </t>
+                    </t>
+			</t>
+		</template>
+
+
+		<record model="ir.actions.report" id="lotes_envios">
+			<field name="name">Orden de Carga</field>
+			<field name="model">stock.picking.batch</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">picking_personalizacion.orden_carga_personalizado</field>
+			<field name="print_report_name">'Lote %s' % (object.name or '')</field>
+			<field name="binding_type">report</field>
+		</record>
+
+	</data>
+</odoo>

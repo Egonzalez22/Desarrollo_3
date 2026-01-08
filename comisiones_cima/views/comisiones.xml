@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- treeview -->
+        <record id="comisiones_cima_comision_view_tree" model="ir.ui.view">
+            <field name="name">comisiones.cima.comision.view.tree</field>
+            <field name="model">cima_comision</field>
+            <field name="arch" type="xml">
+                <tree string="Comisiones">
+                    <field name="name" />
+                    <field name="company_id" />
+                    <field name="fecha_inicio" />
+                    <field name="fecha_fin" />
+                    <field name="total_venta" />
+                    <field name="total_venta" />
+                    <field name="total_cobrado" />
+                    <field name="total_comision" />
+                    <field
+                        name="estado"
+                        string="Estado"
+                        widget="badge"
+                        decoration-warning="estado == 'borrador'"
+                        decoration-success="estado == 'confirmado'"
+                    />
+                </tree>
+            </field>
+        </record>
+
+        <!-- formview -->
+        <record id="comisiones_cima_comision_view_form" model="ir.ui.view">
+            <field name="name">comisiones.cima.comision.view.form</field>
+            <field name="model">cima_comision</field>
+            <field name="arch" type="xml">
+                <form string="Comisiones">
+                    <header>
+                        <field name="estado" widget="statusbar" readonly="1" />
+                    </header>
+                    <sheet>
+                        <group col="2">
+                            <group>
+                                <field name="name"
+                                    attrs="{'readonly': [('estado', '!=', 'borrador')]}" />
+                                <field name="fecha_inicio"
+                                    attrs="{'readonly': [('estado', '!=', 'borrador')]}" />
+                                <field name="fecha_fin"
+                                    attrs="{'readonly': [('estado', '!=', 'borrador')]}" />
+                                <field name="fecha_inicio_cobros"
+                                    attrs="{'readonly': [('estado', '!=', 'borrador')]}" />
+                                <field name="fecha_fin_cobros"
+                                    attrs="{'readonly': [('estado', '!=', 'borrador')]}" />
+                            </group>
+                            <group>
+                                <field name="total_venta" readonly="1" />
+                                <field name="total_cobrado" readonly="1" />
+                                <field name="total_comision" readonly="1" />
+                            </group>
+                        </group>
+                        <group>
+                            <field name="vendedor_ids" widget="many2many_tags"
+                                attrs="{'readonly': [('estado', '!=', 'borrador')]}" />
+                        </group>
+
+                        <!-- solamente mostramos en etado borrador -->
+                        <group>
+                            <group>
+                                <div class="btn-group p-3">
+                                    <button
+                                        name="button_limpiar_comisiones"
+                                        string="Limpiar Comisiones"
+                                        class="btn btn-sm btn-block btn-secondary"
+                                        type="object"
+                                        confirm="¿Está seguro que desea limpiar las comisiones?"
+                                        attrs="{'invisible': [('estado', '!=', 'borrador')]}"
+                                    />
+                                    <button
+                                        name="button_procesar_comisiones"
+                                        string="Generar Comisiones"
+                                        class="btn btn-sm btn-block btn-primary"
+                                        type="object"
+                                        attrs="{'invisible': [('estado', '!=', 'borrador')]}"
+                                    />
+                                </div>
+                            </group>
+                            <group>
+                                <button
+                                    name="button_confirmar_comisiones"
+                                    string="Guardar Comisiones"
+                                    class="btn btn-sm btn-block btn-primary"
+                                    type="object"
+                                    attrs="{'invisible': [('estado', '!=', 'borrador')]}"
+                                />
+                            </group>
+                        </group>
+
+                        <group col="2">
+                            <field name="line_ids"
+                                attrs="{'readonly': [('estado', '!=', 'borrador')]}">
+                                <tree editable="bottom">
+                                    <field name="vendedor_id" />
+                                    <field name="grupo_comision_id" string="Grupo" optional="hide" />
+                                    <field name="category_name" />
+                                    <field name="factura_ids" optional="hide" />
+                                    <field name="factura_pagos_ids" optional="hide" />
+
+                                    <field name="total_venta" />
+                                    <field name="total_cobrado" />
+
+                                    <field name="objetivo_1" />
+                                    <field name="objetivo_2" />
+
+                                    <field name="objetivo_1_premio" />
+                                    <field name="objetivo_2_premio" />
+                                    <field name="total_comision_base" />
+
+                                    <field name="total_comision" readonly="1" />
+
+                                    <field name="currency_id" invisible="True" />
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- act window -->
+        <record id="comisiones_cima_comision_action" model="ir.actions.act_window">
+            <field name="name">Comisiones</field>
+            <field name="res_model">cima_comision</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- menus -->
+        <menuitem
+            id="comisiones_cima_menu"
+            name="Comisiones"
+            parent="account.menu_finance_configuration" />
+        <menuitem
+            id="comisiones_cima"
+            name="Comisiones"
+            parent="comisiones_cima_menu"
+            action="comisiones_cima_comision_action"
+            sequence="2" />
+    </data>
+</odoo>

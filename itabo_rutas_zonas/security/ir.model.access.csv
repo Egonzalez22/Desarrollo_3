@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_itabo_zonas_itabo_zonas,itabo_zonas,model_itabo_zonas_itabo_zonas,base.group_user,1,1,1,1
+access_itabo_rutas_itabo_rutas,itabo_rutas,model_itabo_rutas_itabo_rutas,base.group_user,1,1,1,1

@@ -1,0 +1,17 @@
+<odoo>
+    <!-- account.payment.register inherit form view -->
+    <record id="res_partner_vendedor" model="ir.ui.view">
+        <field name="name">res.partner.vendedor</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='property_product_pricelist']" position="after">
+                <field name="vendedor_id" />
+                <field name="no_comisionable" />
+            </xpath>
+           
+
+
+        </field>
+    </record>
+</odoo>

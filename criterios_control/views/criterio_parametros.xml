@@ -1,0 +1,54 @@
+<odoo>
+    <record id="view_parametro_control_form" model="ir.ui.view">
+        <field name="name">parametro.control.form</field>
+        <field name="model">criterios.parametros</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="criterio_control_id"/>
+                        <field name="uom_control"/>
+                        <field name="valor_min"/>
+                        <field name="valor_max"/>
+                        <field name="product_id"/>
+                        
+
+                    </group>
+                    <!-- <notebook> 
+                        <page string="Productos">
+                            <field name="product_id"/>
+                        </page>
+                    </notebook> -->
+                     
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_parametro_control_tree" model="ir.ui.view">
+        <field name="name">view.parametro.control.tree</field>
+        <field name="model">criterios.parametros</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="criterio_control_id"/>
+                <field name="uom_control"/>
+                <field name="product_id"/>
+                <field name="valor_min"/>
+                <field name="valor_max"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_criterios_parametro" model="ir.actions.act_window">
+        <field name="name">Parametros de Control</field>
+        <field name="res_model">criterios.parametros</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+     <menuitem
+        id="menu_criterios_parametros"
+        name="Parametros de Control"
+        action="action_criterios_parametro"
+        parent="quality_control.menu_quality_control"
+        sequence="15"/>
+    <!-- <menuitem id="menu_criterios_control" name="Criterios de Control" 
+    action="action_criterios_control" parent="quality.menu_quality_configuration"  sequence="100"/> -->
+</odoo>

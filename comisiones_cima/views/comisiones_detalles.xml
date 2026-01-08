@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- treeview -->
+        <record id="comisiones_detalles_cima_comision_view_tree" model="ir.ui.view">
+            <field name="name">comisiones.detalles.cima.comision.view.tree</field>
+            <field name="model">cima_comision_line</field>
+            <field name="arch" type="xml">
+                <tree string="Comisiones Detalles">
+                    <field name="vendedor_id" />
+                    <field name="grupo_comision_id" string="Grupo" optional="hide" />
+                    <field name="factura_ids" optional="hide" />
+                    <field name="factura_pagos_ids" optional="hide" />
+
+                    <field name="category_name" />
+                    <field name="total_venta" optional="hide" decoration-bf="1" />
+                    <field name="total_cobrado" optional="show" decoration-bf="1" />
+
+                    <field name="premio_1_logrado" invisible="1" />
+                    <field name="premio_2_logrado" invisible="1" />
+                    <field name="objetivo_1" decoration-success="premio_1_logrado" />
+                    <field name="objetivo_2" decoration-success="premio_2_logrado" />
+
+
+                    <field name="total_comision_base" decoration-bf="1" />
+                    <field
+                        name="objetivo_1_premio"
+                        decoration-success="premio_1_logrado"
+                        decoration-bf="1"
+                        optional="show" />
+                    <field
+                        name="objetivo_2_premio"
+                        decoration-success="premio_2_logrado"
+                        decoration-bf="1"
+                        optional="show" />
+
+                    <field
+                        name="total_comision"
+                        optional="show"
+                        decoration-bf="1"
+                        decoration-success="total_comision&gt;0"
+                    />
+
+                    <field name="diferencia_objetivo_1" string="Dif. Objetivo 1" optional="hide" />
+                    <field name="diferencia_objetivo_2" string="Dif. Objetivo 2" optional="hide" />
+                    <field name="porcentaje_objetivo_1" string="% Objetivo 1" optional="hide" />
+                    <field name="porcentaje_objetivo_2" string="% Objetivo 2" optional="hide" />
+
+                    <field name="currency_id" invisible="True" />
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- act window -->
+        <record id="comisiones_detalle_cima_comision_action" model="ir.actions.act_window">
+            <field name="name">Comisiones Detalles</field>
+            <field name="res_model">cima_comision_line</field>
+            <field name="view_mode">tree,pivot</field>
+        </record>
+
+        <!-- marcaciones_views inherit search view -->
+        <record id="cima_comision_line_filter" model="ir.ui.view">
+            <field name="name">cima.comision.line.filter</field>
+            <field name="model">cima_comision_line</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="vendedor_id" />
+                    <field name="category_id" />
+
+                    <separator />
+                    <filter
+                        name="objetivo_1"
+                        string="Objetivo 1 Logrado"
+                        domain="[('objetivo_1_premio','&gt;', 0)]" />
+                    <filter
+                        name="objetivo_2"
+                        string="Objetivo 2 Logrado"
+                        domain="[('objetivo_2_premio','&gt;', 0)]" />
+
+                    <separator />
+                    <filter
+                        name="objetivo_1_no"
+                        string="Objetivo 1 No Logrado"
+                        domain="[('objetivo_1_premio','=', False)]" />
+                    <filter
+                        name="objetivo_2_no"
+                        string="Objetivo 2 No Logrado"
+                        domain="[('objetivo_2_premio','=', False)]" />
+
+                    <separator />
+                    <filter
+                        name="con_comision"
+                        string="Con comisión"
+                        domain="[('total_comision','&gt;', 0)]" />
+                    <filter
+                        name="sin_comision"
+                        string="Sin comisión"
+                        domain="[('total_comision','&lt;', 1)]" />
+
+                    <group expand="0" string="Group By">
+                        <filter
+                            string="Comisión Nombre"
+                            name="group_comision_nombre"
+                            context="{'group_by': 'comision_id'}" />
+                        <filter
+                            string="Vendedor"
+                            name="group_vendedor"
+                            context="{'group_by': 'vendedor_id'}" />
+                        <filter
+                            string="Categoría"
+                            name="group_categoria"
+                            context="{'group_by': 'category_id'}" />
+                    </group>
+
+                </search>
+            </field>
+        </record>
+
+        <!-- menus -->
+        <menuitem
+            id="comisiones_detalles_cima"
+            name="Comisiones Detalles"
+            parent="comisiones_cima_menu"
+            action="comisiones_detalle_cima_comision_action"
+            sequence="3" />
+    </data>
+</odoo>

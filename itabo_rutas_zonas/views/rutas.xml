@@ -1,0 +1,50 @@
+<odoo>
+
+    <!-- Vista de formulario -->
+    <record model="ir.ui.view" id="itabo_rutas_itabo_rutas_form">
+        <field name="name">itabo_rutas.itabo_rutas.form</field>
+        <field name="model">itabo_rutas.itabo_rutas</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="zonas_ids" widget="many2many_tags"/>
+                        </group>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de árbol -->
+    <record id="itabo_rutas_itabo_rutas_tree" model="ir.ui.view">
+        <field name="name">itabo_rutas.itabo_rutas.tree</field>
+        <field name="model">itabo_rutas.itabo_rutas</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Rutas">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Acción de ventana -->
+    <record model="ir.actions.act_window" id="itabo_rutas_itabo_rutas_action_window">
+        <field name="name">Rutas</field>
+        <field name="res_model">itabo_rutas.itabo_rutas</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Crear una nueva ruta</p>
+        </field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Menú -->
+    <menuitem id="itabo_rutas" name="Rutas" parent="contacts.res_partner_menu_config" action="itabo_rutas_itabo_rutas_action_window"/>
+
+</odoo>

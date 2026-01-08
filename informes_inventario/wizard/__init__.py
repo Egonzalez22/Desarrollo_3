@@ -1,0 +1,1 @@
+from . import informe_ajuste_inventario, stock_inventory_adjustment_name

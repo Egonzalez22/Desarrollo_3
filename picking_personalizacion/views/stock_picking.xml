@@ -1,0 +1,36 @@
+<odoo>
+    <!-- account.payment.register inherit form view -->
+    <record id="stock_picking_personalizacion" model="ir.ui.view">
+        <field name="name">stock.picking.personalizacion</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='group_id']" position="after">
+                <field name="equipo_venta" />
+                <field name="numero_factura" />
+                <field name="monto_factura" />
+                <!-- <field name="numero_factura_sale" />
+                <field name="monto_factura_sale" /> -->
+            </xpath>
+           
+
+
+        </field>
+    </record>
+    <record id="stock_picking_batch_personalizacion" model="ir.ui.view">
+        <field name="name">stock.picking.batch.personalizacion</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock_picking_batch.view_picking_tree_batch" />
+        <field name="arch" type="xml">
+             <xpath expr="//field[@name='state']" position="after">
+                <!-- <field name="numero_factura_sale"/>
+                <field name="monto_factura_sale"/> -->
+                <field name="numero_factura" />
+                <field name="monto_factura" />
+            </xpath>
+           
+
+
+        </field>
+    </record>
+</odoo>

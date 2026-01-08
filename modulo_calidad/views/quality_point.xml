@@ -1,0 +1,44 @@
+<odoo>
+    <data>
+        <record id="view_quality_point_form" model="ir.ui.view">
+            <field name="name">view.quality.point.form</field>
+            <field name="model">quality.point</field>
+            <field name="inherit_id" ref="quality.quality_point_view_form" />
+            <field name="arch" type="xml"> 
+                <xpath expr="//label[@for='norm']" position="replace">
+                    <label for="norm" attrs="{'invisible': [('test_type', '=', 'measure'),('measure_on', '=', 'product')]}"/>
+                </xpath>
+                <xpath expr="//div[field[@name='norm']]" position="replace">
+                    <div class="o_row" attrs="{'invisible': [('test_type', '=', 'measure'),('measure_on', '=', 'product')]}">
+                        <field name="norm" attrs="{'invisible': [('test_type', '=', 'measure'),('measure_on', '=', 'product')]}"/>
+                        <field name="norm_unit" string="Unit of Measure" attrs="{'invisible': [('test_type', '=', 'measure'),('measure_on', '=', 'product')]}"/>
+                    </div>
+                </xpath>
+                 <xpath expr="//label[@for='tolerance_min']" position="replace">
+                    <label for="tolerance_min" string="Tolerance" attrs="{'invisible': [('test_type', '=', 'measure'),('measure_on', '=', 'product')]}"/>
+                </xpath>
+                <xpath expr="//div[field[@name='tolerance_min']]" position="replace">
+                    <div attrs="{'invisible': [('test_type', '=', 'measure'),('measure_on', '=', 'product')]}" class="o_row">
+                        <span>from </span> <field name="tolerance_min"/>
+                        <span>to </span> <field name="tolerance_max"/>
+                    </div>
+                </xpath>
+                <xpath expr="//notebook/page[@name='Notes']" position="after" >
+                    <page string="Criterios" name="Criterios" attrs="{'invisible': ['|',('test_type', '!=', 'measure'), ('measure_on', '!=', 'product')]}" >
+                        <field name="criterio_parametro_id">
+                            <tree editable="bottom">
+                                <field name="criterio_control_id" readonly="1"/>
+                                <field name="product_id" readonly="1"/>
+                                <field name="uom_control" readonly="1"/>
+                                <field name="valor_min" readonly="1"/>
+                                <field name="valor_max" readonly="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                    
+                </xpath>
+                
+            </field>
+        </record>
+    </data>
+</odoo>

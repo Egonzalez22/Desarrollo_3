@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="picking_personalizacion.list">
+      <field name="name">picking_personalizacion list</field>
+      <field name="model">picking_personalizacion.picking_personalizacion</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="picking_personalizacion.action_window">
+      <field name="name">picking_personalizacion window</field>
+      <field name="res_model">picking_personalizacion.picking_personalizacion</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="picking_personalizacion.action_server">
+      <field name="name">picking_personalizacion server</field>
+      <field name="model_id" ref="model_picking_personalizacion_picking_personalizacion"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="picking_personalizacion" id="picking_personalizacion.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="picking_personalizacion.menu_1" parent="picking_personalizacion.menu_root"/>
+    <menuitem name="Menu 2" id="picking_personalizacion.menu_2" parent="picking_personalizacion.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="picking_personalizacion.menu_1_list" parent="picking_personalizacion.menu_1"
+              action="picking_personalizacion.action_window"/>
+    <menuitem name="Server to list" id="picking_personalizacion" parent="picking_personalizacion.menu_2"
+              action="picking_personalizacion.action_server"/>
+-->
+  </data>
+</odoo>

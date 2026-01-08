@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- tree view -->
+        <record id="marca_tree_view" model="ir.ui.view">
+            <field name="name">marca.tree.view</field>
+            <field name="model">product.marca</field>
+            <field name="arch" type="xml">
+                <tree string="Marcas">
+                    <field name="code" />
+                    <field name="name" />
+                    <field name="active" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- formulario -->
+        <record id="marca_form_view" model="ir.ui.view">
+            <field name="name">marca.form.view</field>
+            <field name="model">product.marca</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+
+                        <group>
+                            <field name="code" />
+                            <field name="name" />
+                            <field name="active" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- act window -->
+        <record id="marca_action_window" model="ir.actions.act_window">
+            <field name="name">Marcas</field>
+            <field name="res_model">product.marca</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Agregamos el menu en la parte superior, en el menu de configuracion del stock -->
+        <menuitem id="menu_marca" name="Marcas de productos" action="marca_action_window" parent="stock.menu_product_in_config_stock" sequence="3" />
+
+    </data>
+</odoo>

@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+        <record id="mrp_bom_form" model="ir.ui.view">
+            <field name="name">invoice_draft_view_move_form</field>
+            <field name="model" >mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch"  type="xml">
+                <xpath expr="//page[@name='components']/field[@name='bom_line_ids']/tree/field[@name='product_qty']" position="before">
+                    <field name="location_id"/>
+                </xpath>
+                <xpath expr="//page[@name='by_products']/field[@name='byproduct_ids']/tree/field[@name='product_qty']" position="before">
+                    <field name="location_dest_id"/>
+                </xpath> 
+            </field>
+        </record>
+    </data>
+</odoo>

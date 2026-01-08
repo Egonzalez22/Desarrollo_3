@@ -1,0 +1,19 @@
+<odoo>
+	<data>
+
+		<record id="comisiones_cima.product_category_form_view" model="ir.ui.view">
+			<field name="name">comisiones.cima.product.category.form.view</field>
+			<field name="model">product.category</field>
+			<field name="inherit_id" ref="product.product_category_form_view" />
+			<field name="arch" type="xml">
+
+				<!-- Agregamos la familia del producto -->
+				<xpath expr="//field[@name='parent_id']" position="after">
+					<field name="es_comisionable" string="Producto comisionable" />
+				</xpath>
+
+
+			</field>
+		</record>
+	</data>
+</odoo>

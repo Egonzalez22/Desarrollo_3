@@ -1,0 +1,15 @@
+<odoo>
+	<!-- account.payment.register inherit form view -->
+	<record id="crm_team_view_form_inherit_comisiones" model="ir.ui.view">
+		<field name="name">crm.team.view.form.inherit.comisiones</field>
+		<field name="model">crm.team</field>
+		<field name="inherit_id" ref="sales_team.crm_team_view_form" />
+		<field name="arch" type="xml">
+
+			<xpath expr="//field[@name='user_id']" position="after">
+				<field name="calcular_objetivos" />
+			</xpath>
+
+		</field>
+	</record>
+</odoo>

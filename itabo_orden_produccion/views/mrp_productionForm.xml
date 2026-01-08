@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+        <record id="title_mrpproductionTree" model="ir.ui.view">
+            <field name="name">invoice_draft_view_move_form</field>
+            <field name="model" >mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch"  type="xml">
+                <xpath expr="//page[@name='components']//field[@name='move_raw_ids']//tree/field[@name='location_id']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+                <xpath expr="//page[@name='finished_products']//field[@name='move_byproduct_ids']//tree/field[@name='location_dest_id']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

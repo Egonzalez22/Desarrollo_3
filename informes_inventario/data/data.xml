@@ -1,0 +1,17 @@
+<odoo>
+
+    <data>
+
+        <record id="informes_inventario.secuencia_inventario" model="ir.sequence">
+            <field name="name">informes_inventario.secuencia_inventario</field>
+            <field name="code">secuencia_inventario</field>
+<!--            <field name="prefix">M</field>-->
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">1</field>
+            <field name="implementation">no_gap</field>
+        </record>
+
+    </data>
+
+</odoo>

@@ -1,0 +1,20 @@
+<odoo>
+    <!-- account.payment.register inherit form view -->
+    <record id="crm_team_vendedor" model="ir.ui.view">
+        <field name="name">crm.team.vendedor</field>
+        <field name="model">crm.team</field>
+        <field name="inherit_id" ref="sales_team.crm_team_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+               <page string="Vendedor">
+                    <group>
+                        <field name="vendedor" />
+                    </group>
+                </page>
+            </xpath>
+           
+
+
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_criterios_control,criterios_control.criterios_control,criterios_control.model_criterios_control,base.group_user,1,1,1,1
+access_criterios_parametros,criterios_control.criterios_parametros,criterios_control.model_criterios_parametros,base.group_user,1,1,1,1

@@ -1,0 +1,14 @@
+<odoo>
+    <record id="account_payment_register_cobrador" model="ir.ui.view">
+        <field name="name">account.payment.register.cobrador</field>
+        <field name="model">account.payment.register</field>
+        <field name="inherit_id" ref="account.view_account_payment_register_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_date']" position="after">
+                <field name="cobrador_id" />
+                <!-- <field name="usuario" /> -->
+            </xpath>
+           
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- treeview -->
+        <record id="grupo_comisiones_view_tree" model="ir.ui.view">
+            <field name="name">cima.grupo.comisiones.view.tree</field>
+            <field name="model">grupo_comision</field>
+            <field name="arch" type="xml">
+                <tree string="Grupos">
+                    <field name="name" />
+                    <field name="company_id" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- formview -->
+        <record id="grupo_comisiones_view_form" model="ir.ui.view">
+            <field name="name">cima.grupo.comisiones.view.form</field>
+            <field name="model">grupo_comision</field>
+            <field name="arch" type="xml">
+                <form string="Grupos">
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="company_id" readonly="True" store="True" />
+                            <field name="meta_objetivo_1" />
+                            <field name="meta_objetivo_2" />
+                            <field name="vendedor_ids" widget="many2many_tags" />
+                            <button name="generar_lineas" string="Generar Lineas" type="object" class="oe_highlight" />
+                        </group>
+                        <field name="line_ids">
+                            <tree editable="bottom">
+                                <field name="category_id" />
+                                <field name="objetivo_1" />
+                                <field name="objetivo_2" />
+                                <field name="comision_base" />
+                                <field name="es_activador" />
+                                <field name="es_tercerizado" />
+                                <field name="currency_id" invisible="True" />
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- act window -->
+        <record id="grupo_comisiones_action" model="ir.actions.act_window">
+            <field name="name">Grupos de Comisiones</field>
+            <field name="res_model">grupo_comision</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- menu -->
+        <menuitem
+            id="comisiones_cima_grupos"
+            name="Grupo de Comisiones"
+            parent="comisiones_cima_menu"
+            action="grupo_comisiones_action"
+            sequence="1"
+            />
+    </data>
+</odoo>

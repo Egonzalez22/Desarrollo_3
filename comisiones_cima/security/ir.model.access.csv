@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cima_comision,comisiones_cima.cima_comision,model_cima_comision,base.group_user,1,1,1,1
+access_cima_comision_line,comisiones_cima.cima_comision_line,model_cima_comision_line,base.group_user,1,1,1,1
+access_grupo_comision,comisiones_cima.grupo_comision,model_grupo_comision,base.group_user,1,1,1,1
+access_grupo_comision_line,comisiones_cima.grupo_comision_line,model_grupo_comision_line,base.group_user,1,1,1,1

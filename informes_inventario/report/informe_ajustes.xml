@@ -1,0 +1,246 @@
+<odoo>
+    <data>
+        <!-- <template id="informes_inventario.template"> -->
+        <!--     <h3>Template</h3> -->
+        <!-- </template> -->
+
+        <template id="informes_inventario.informe_ajuste_inventario">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <!-- <h3>Report</h3> -->
+                    <!-- <t t-foreach="docs" t-as="doc"> -->
+                    <!--     <t t-call="informes_inventario.template" /> -->
+                    <!-- </t> -->
+                    <div class="header o_company_1_layout">
+<!--                        <div class="o_boxed_header">-->
+                            <div class="row mb8">
+                                <div class="col-6">
+                                  <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" style="max-width:240px;height:100px;" />
+                                </div>
+                                <div class="col-6 text-right mb4">
+                                    <div name="company_address" class="float-right mb4">
+                                        <p>
+                                            <span t-esc="company.name"/><br/>
+                                            <span t-esc="company.street"/>
+                                            <span t-esc="company.city"/><br/>
+                                                Tel.: <span t-esc="company.phone"/>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+<!--                        </div>-->
+                    </div>
+                    <div class="page">
+                        <div class="row" style="width: 100%;">
+                            <div class="col-4"/>
+                            <div style="color: black">
+                                <h5>Listado de Inventario por Familias</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <p>
+                                    <b style="color: black;">Numero de ajuste: </b>
+                                    <t t-if="nro_ajuste">
+                                        <b t-esc="nro_ajuste"/>
+                                    </t>
+<!--                                    <t t-foreach="listado_nombres" t-as="l_nombre">-->
+<!--                                        <br/>- <t t-esc="l_nombre" />-->
+<!--                                    </t>-->
+                                </p>
+                            </div>
+                            <div class="col-6" style="text-align:right;">
+                                <p>
+                                    <b style="color: black;">Fecha: </b>
+                                    <b t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')" t-option="{'widget': date}"/>
+<!--                                    <t t-foreach="listado_fechas" t-as="l_fecha">-->
+<!--                                        <br/>- <t t-esc="l_fecha" />-->
+<!--                                    </t>-->
+                                </p>
+                            </div>
+                        </div>
+                        <t t-if="f_categories">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p>
+                                        <b style="color: black;">Familias: </b>
+                                        <t t-foreach="f_categories" t-as="category">
+                                            - <t t-esc="category.name" />
+                                        </t>
+                                    </p>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-set="total_a_mano" t-value="0"/>
+                        <t t-set="total_contada" t-value="0"/>
+                        <t t-set="total" t-value="0"/>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr style="padding: 0px; font-size: 10px; background-color: lightgray;">
+                                    <th class="text-center">Cod</th>
+                                    <th class="text-center">Cod de Barras</th>
+                                    <th class="text-center">Descripción del Producto</th>
+                                    <th class="text-center">Cant a mano</th>
+                                    <th class="text-center">Total a mano</th>
+                                    <th class="text-center">Cant contada</th>
+                                    <th class="text-center">Total contada</th>
+                                    <th class="text-center">Diferencia</th>
+                                    <th class="text-center">Valor Unitario</th>
+                                    <th class="text-center">Valor Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <style>
+                                  td div {
+                                    margin: 4.1px 0 4.1px 0;
+                                    height: 8px;
+                                  }
+                                  td {
+                                    padding: 0 !important;
+                                  }
+                                </style>
+                                <t t-foreach="sorted(histoy_lines, key=lambda x:x.product_id.name)" t-as="line">
+                                    <tr style="page-break-inside:avoid; color: black; font-size: 10px; padding: 0px; line-height: 1; border: 1px solid black;">
+                                        <td class="text-center" style="padding: 1px;">
+                                            <div><t t-esc="line.product_id.default_code"/></div>
+                                        </td>
+                                        <td class="text-center" style="padding: 1px;">
+                                            <div><t t-esc="line.product_id.barcode"/></div>
+                                        </td>
+                                        <td style="padding: 1px;">
+                                            <div><t t-esc="line.product_id.name"/></div>
+                                        </td>
+                                        <td style="padding: 1px; text-align: right;">
+                                            <div><t t-esc="'{0:,.0f}'.format(line.quantity).replace(',','.')"/></div>
+                                        </td>
+                                        <td style="padding: 1px; text-align: right;">
+                                            <div><t t-esc="'{0:,.0f}'.format(line.quantity * line.invetory_value).replace(',','.')"/></div>
+                                        </td>
+                                        <td style="padding: 1px; text-align: right;">
+                                            <div><t t-esc="'{0:,.0f}'.format(line.inventory_quantity).replace(',','.')"/></div>
+                                        </td>
+                                        <td style="padding: 1px; text-align: right;">
+                                            <div><t t-esc="'{0:,.0f}'.format(line.inventory_quantity * line.invetory_value).replace(',','.')"/></div>
+                                        </td>
+                                        <td style="padding: 1px; text-align: right;">
+                                            <div><t t-esc="'{0:,.0f}'.format(line.inventory_diff_quantity).replace(',','.')"/></div>
+                                        </td>
+                                        <td style="padding: 1px; text-align: right;">
+<!--                                            <t t-esc="line.invetory_value" />-->
+                                            <div><t t-esc="'{0:,.0f}'.format(line.invetory_value).replace(',','.')"/></div>
+                                        </td>
+                                        <td style="padding: 1px; text-align: right; background: none;">
+<!--                                            <t t-esc="line.invetory_value * line.inventory_diff_quantity"/>-->
+                                            <div>
+                                                <t t-esc="'{0:,.0f}'.format(line.invetory_value * line.inventory_diff_quantity).replace(',','.')"/>
+                                                <t t-set="total_a_mano" t-value="total_a_mano + (line.quantity * line.invetory_value)"/>
+                                                <t t-set="total_contada" t-value="total_contada + (line.inventory_quantity * line.invetory_value)"/>
+                                                <t t-set="total" t-value="total + (line.invetory_value * line.inventory_diff_quantity)"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfooter>
+                                <tr style="page-break-inside:avoid; border: 1px solid white !important; font-size: 11px; line-height: 1.1; font-weight: bold;">
+                                    <td colspan="3" style="border: none;"/>
+                                    <td style="text-align:right; border: none; color: black;">
+                                        <span>TOTAL:</span>
+                                    </td>
+                                    <td class="text-center" style="border: 1px solid black; background: none;">
+                                        <strong t-esc="'{0:,.0f}'.format(total_a_mano).replace(',','.')"/>
+                                    </td>
+                                    <td colspan="1" style="border: none;"/>
+                                    <td class="text-center" style="border: 1px solid black; background: none;">
+                                        <strong t-esc="'{0:,.0f}'.format(total_contada).replace(',','.')"/>
+                                    </td>
+                                    <td colspan="2" style="border: none;"/>
+                                    <td class="text-center" style="border: 1px solid black; background: none;">
+                                        <strong t-esc="'{0:,.0f}'.format(total).replace(',','.')"/>
+                                    </td>
+                                </tr>
+                            </tfooter>
+                        </table>
+                        <table style="border: none; width: 50%; font-size: 12px;">
+                            <tr style="border: none;">
+                                <td style="border: none; border-bottom: 1px solid black; text-align: left">
+                                    Filtros Establecidos
+                                </td>
+                                <td style="border-bottom: 1px solid black; background: none;" col="8" />
+                            </tr>
+                            <tr style="border: none;">
+                                <td col="2" style="border: none;">
+                                    Categorías de producto
+                                </td>
+                                <td col="2" style="text-align: right; border: none;">
+                                    <t t-if="f_categories">
+                                      <t t-foreach="f_categories" t-as="category">
+                                        <t t-esc="category.name" />,
+                                      </t>
+                                      <br/>
+                                    </t>
+                                    <t t-else="">
+                                        <span>No</span>
+                                    </t>
+                                </td>
+                                <td col="8" style="border: none;"/>
+                            </tr>
+                            <tr style="border: none;">
+                                <td col="2" style="border: none;">
+                                    Registros con diferencia cero
+                                </td>
+                                <td col="2" style="text-align: right; border: none;">
+                                    <t t-if="f_dif_cero">
+                                        Si
+                                    </t>
+                                    <t t-else="">
+                                        No
+                                    </t>
+                                </td>
+                                <td col="8" style="border: none;"/>
+                            </tr>
+                            <tr style="border: none;">
+                                <td col="2" style="border: none;">
+                                    Ubicacion
+                                </td>
+                                <td col="2" style="text-align: right; border: none" >
+                                    <t t-if="f_ubicacion">
+                                        <span t-esc="f_ubicacion.name"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span>No</span>
+                                    </t>
+                                </td>
+                                <td col="8" style="border: none;"/>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <record id="custom_letter" model="report.paperformat">
+            <field name="name">Custom Letter</field>
+            <field name="default" eval="True" />
+            <field name="format">Letter</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">27</field>
+            <field name="margin_bottom">30</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">25</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record model="ir.actions.report" id="informes_inventario.informe_ajuste_inventario_action">
+            <field name="name">Reporte de Ajustes de Inventario</field>
+            <field name="model">pos.session</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">informes_inventario.informe_ajuste_inventario</field>
+            <field name="paperformat_id" ref="informes_inventario.custom_letter" />
+            <!-- <field name="binding_model_id" ref="point_of_sale.model_pos_session" /> -->
+            <!-- <field name="binding_type">report</field> -->
+        </record>
+    </data>
+</odoo>

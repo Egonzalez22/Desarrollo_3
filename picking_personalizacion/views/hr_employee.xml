@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="hr_employee_form_picking_personalizacion">
+            <field name="name">hr_employee_form_picking_personalizacion</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='employee_type']" position="after">
+                    <field name="es_vendedor"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
